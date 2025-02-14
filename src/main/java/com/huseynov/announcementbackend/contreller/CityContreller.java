@@ -16,13 +16,16 @@ public class CityContreller {
     private final CityDao cityDao = new CityDao();
 
     @GetMapping
-    public List<City> getCities() {
+    public List<CityDto> getCities() {
         List<CityDto> cityDtoList = new ArrayList<>();
         List<City> cities = cityDao.findall();
         for (City city : cities) {
             CityDto cityDto = new CityDto();
+            cityDto.setCityId(city.getCityId());
+            cityDto.setName(city.getCityname());
+            cityDtoList.add(cityDto);
         }
-        return null;
+        return cityDtoList;
     }
 
 }
