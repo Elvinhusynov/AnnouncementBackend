@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class Entity {
-    private Long EntityId;
-    private String EntityName;
+public class Category {
+    private Long CategoryId;
+    private String Name;
 }

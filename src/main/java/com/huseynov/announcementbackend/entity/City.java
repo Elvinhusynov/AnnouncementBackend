@@ -7,5 +7,5 @@ import lombok.Data;
 @AllArgsConstructor
 public class City {
     private Long CityId;
-    private String Cityname;
+    private String name;
 }
