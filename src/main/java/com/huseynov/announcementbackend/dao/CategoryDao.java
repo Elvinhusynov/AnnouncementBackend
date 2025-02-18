@@ -2,6 +2,7 @@ package com.huseynov.announcementbackend.dao;
 
 import com.huseynov.announcementbackend.config.DatabaseConfig;
 import com.huseynov.announcementbackend.entity.Category;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -9,7 +10,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
+@Repository
 public class CategoryDao {
     public List<Category> findAll(){
         List<Category> categories = new ArrayList<>();

@@ -2,11 +2,12 @@ package com.huseynov.announcementbackend.dao;
 
 import com.huseynov.announcementbackend.config.DatabaseConfig;
 import com.huseynov.announcementbackend.entity.City;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
+@Repository
 public class CityDao {
     public List<City> findAll() {
 

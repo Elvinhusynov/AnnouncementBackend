@@ -2,10 +2,11 @@ package com.huseynov.announcementbackend.mapper;
 
 import com.huseynov.announcementbackend.dto.CategoryDto;
 import com.huseynov.announcementbackend.entity.Category;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@Component
 public class CategoryMapper {
     public CategoryDto toDto(Category category) {
         CategoryDto categoryDto = new CategoryDto();

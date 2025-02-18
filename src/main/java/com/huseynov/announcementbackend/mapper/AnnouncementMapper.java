@@ -2,13 +2,16 @@ package com.huseynov.announcementbackend.mapper;
 
 import com.huseynov.announcementbackend.dto.AnnouncementDto;
 import com.huseynov.announcementbackend.entity.Announcement;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
+@Component
+@RequiredArgsConstructor
 public class AnnouncementMapper {
-    private final CityMapper cityMapper = new CityMapper();
-    private final CategoryMapper categoryMapper = new CategoryMapper();
+    private final CityMapper cityMapper;
+    private final CategoryMapper categoryMapper;
 
     public AnnouncementDto toDto(Announcement announcement) {
         AnnouncementDto announcementDto = new AnnouncementDto();
