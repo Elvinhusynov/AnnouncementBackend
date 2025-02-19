@@ -1,6 +1,7 @@
 package com.huseynov.announcementbackend.dao;
 
 import com.huseynov.announcementbackend.config.DatabaseConfig;
+import com.huseynov.announcementbackend.constant.QuaryConstants;
 import com.huseynov.announcementbackend.entity.City;
 import org.springframework.stereotype.Repository;
 
@@ -15,9 +16,8 @@ public class CityDao {
         try (Connection connection = DatabaseConfig.getConnection()){
 
             Statement statement = connection.createStatement();
-            String quary = "SELECT * FROM cities";
 
-            ResultSet resultSet = statement.executeQuery(quary);
+            ResultSet resultSet = statement.executeQuery(QuaryConstants.Get_City_List_Query);
             while (resultSet.next()) {
                 Long id = resultSet.getLong("city_id");
                 String name = resultSet.getString("name");

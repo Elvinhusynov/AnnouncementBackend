@@ -1,6 +1,7 @@
 package com.huseynov.announcementbackend.dao;
 
 import com.huseynov.announcementbackend.config.DatabaseConfig;
+import com.huseynov.announcementbackend.constant.QuaryConstants;
 import com.huseynov.announcementbackend.entity.Category;
 import org.springframework.stereotype.Repository;
 
@@ -15,9 +16,9 @@ public class CategoryDao {
     public List<Category> findAll(){
         List<Category> categories = new ArrayList<>();
         try(Connection connection = DatabaseConfig.getConnection()){
-            String sql = "SELECT * FROM catagories";
+
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
+            ResultSet resultSet = statement.executeQuery(QuaryConstants.Get_Category_List_Query);
             while(resultSet.next()){
                 Long id = resultSet.getLong("catagory_id");
                 String name = resultSet.getString("name");

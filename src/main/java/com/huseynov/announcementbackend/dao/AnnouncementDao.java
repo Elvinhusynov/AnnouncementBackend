@@ -1,6 +1,7 @@
 package com.huseynov.announcementbackend.dao;
 
 import com.huseynov.announcementbackend.config.DatabaseConfig;
+import com.huseynov.announcementbackend.constant.QuaryConstants;
 import com.huseynov.announcementbackend.entity.Announcement;
 import com.huseynov.announcementbackend.entity.Category;
 import com.huseynov.announcementbackend.entity.City;
@@ -15,27 +16,9 @@ public class AnnouncementDao {
     public List<Announcement> findAll() {
         List<Announcement> announcements = new ArrayList<>();
         try (Connection connection = DatabaseConfig.getConnection()) {
-            String sql = """
-                    SELECT  A.announcement_id,
-                            A.name,
-                            A.description,
-                            A.announcement_number,
-                            A.price,
-                            A.phone_number,
-                            A.seller_full_name,
-                            A.delivery,
-                            A.created_date,
-                            A.modified_date,
-                            C.city_id,
-                            C.name as city_name,
-                            ct.catagory_id,
-                            ct.name as category_name
-                    FROM announcements a
-                             LEFT JOIN cities c  on A.city_id = C.city_id
-                             LEFT JOIN catagories ct on A.catagory_id = ct.catagory_id
-                    """;
+
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
+            ResultSet resultSet = statement.executeQuery(QuaryConstants.Get_Announcement_List_Quary);
             while (resultSet.next()) {
                 Announcement announcement = new Announcement();
                 announcement.setAnnouncementid(resultSet.getLong("announcement_id"));
