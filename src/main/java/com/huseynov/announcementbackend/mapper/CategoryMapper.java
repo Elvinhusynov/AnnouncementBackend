@@ -2,23 +2,17 @@ package com.huseynov.announcementbackend.mapper;
 
 import com.huseynov.announcementbackend.dto.CategoryDto;
 import com.huseynov.announcementbackend.entity.Category;
-import org.springframework.stereotype.Component;
+import com.huseynov.announcementbackend.entity.City;
+import org.mapstruct.Mapper;
 
-import java.util.ArrayList;
 import java.util.List;
-@Component
-public class CategoryMapper {
-    public CategoryDto toDto(Category category) {
-        CategoryDto categoryDto = new CategoryDto();
-        categoryDto.setCategoryId(category.getCatagoryId());
-        categoryDto.setName(category.getName());
-        return categoryDto;
-    }
 
-    public List<CategoryDto> toDtoList(List<Category> categoryList) {
-        return categoryList.stream()
-                .map(this::toDto)
-                .toList();
+@Mapper(componentModel = "spring")
+public interface CategoryMapper {
+    CategoryDto toDto(Category category);
 
-    }
+    List<CategoryDto> toDtoList(List<Category> categoryList);
+
+
+
 }
