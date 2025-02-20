@@ -2,9 +2,8 @@ package com.huseynov.announcementbackend.dto;
 
 import lombok.Data;
 
-import java.time.LocalDateTime;
 @Data
-public class AnnouncementRequest {
+public class CreateAnnouncementRequest {
     private String name;
     private String description;
     private Double price;

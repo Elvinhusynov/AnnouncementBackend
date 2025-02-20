@@ -28,5 +28,18 @@ public class QuaryConstants {
             SELLER_FULL_NAME, DELIVERY, CITY_ID, CATAGORY_ID)
             VALUE (?,?,?,?,?,?,?,?,?,?);
             """;
+    public static final String UPDATE_ANNOUNCEMENT_QUARY = """
+            UPDATE announcements
+            SET NAME = ?,
+                description = ?,
+                price = ?,
+                seller_full_name = ?,
+                delivery = ?
+             WHERE announcement_id =?
+            """;
+    public static final String DELETE_ANNOUNCEMENT_QUARY = """
+            DELETE FROM announcements
+            WHERE announcement_id = ?
+            """;
 
 }

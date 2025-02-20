@@ -1,8 +1,9 @@
 package com.huseynov.announcementbackend.service;
 
 import com.huseynov.announcementbackend.dao.AnnouncementDao;
-import com.huseynov.announcementbackend.dto.AnnouncementRequest;
+import com.huseynov.announcementbackend.dto.CreateAnnouncementRequest;
 import com.huseynov.announcementbackend.dto.AnnouncementResponse;
+import com.huseynov.announcementbackend.dto.UpdateAnnouncementRequest;
 import com.huseynov.announcementbackend.entity.Announcement;
 import com.huseynov.announcementbackend.mapper.AnnouncementMapper;
 import lombok.RequiredArgsConstructor;
@@ -19,8 +20,16 @@ public class AnnouncementService {
         List<Announcement> announcements = announcementDao.findAll();
         return announcementMapper.toResponseList(announcements);
     }
-    public void createAnnouncement(AnnouncementRequest request) {
+    public void createAnnouncement(CreateAnnouncementRequest request) {
     Announcement announcement = announcementMapper.toEntity(request);
     announcementDao.create(announcement);
+    }
+    public void updateAnnouncement(Long announcementId,UpdateAnnouncementRequest request) {
+        Announcement announcement = announcementMapper.toEntity(announcementId,request);
+        announcementDao.update(announcement);
+
+    }
+    public void deleteAnnouncement(Long announcementId) {
+        announcementDao.delete(announcementId);
     }
 }

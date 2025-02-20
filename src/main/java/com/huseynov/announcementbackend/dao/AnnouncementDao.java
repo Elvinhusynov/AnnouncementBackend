@@ -82,4 +82,28 @@ public class AnnouncementDao {
             e.printStackTrace(System.err);
         }
     }
+    public void update(Announcement announcement) {
+        try(Connection connection = DatabaseConfig.getConnection()){
+        PreparedStatement preparedStatement = connection.prepareStatement(QuaryConstants.UPDATE_ANNOUNCEMENT_QUARY);
+        preparedStatement.setString(1, announcement.getName());
+        preparedStatement.setString(2, announcement.getDescription());
+        preparedStatement.setDouble(3, announcement.getPrice());
+        preparedStatement.setString(4, announcement.getSellerFullName());
+        preparedStatement.setBoolean(5, announcement.getDelivery());
+        preparedStatement.setLong(6, announcement.getAnnouncementid());
+        preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace(System.err);
+        }
+    }
+    public void delete(Long announcementId) {
+        try(Connection connection = DatabaseConfig.getConnection()){
+           PreparedStatement preparedStatement = connection.prepareStatement(QuaryConstants.DELETE_ANNOUNCEMENT_QUARY);
+           preparedStatement.setLong(1, announcementId);
+
+           preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace(System.err);
+        }
+    }
 }
