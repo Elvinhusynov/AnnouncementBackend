@@ -22,5 +22,11 @@ public class QuaryConstants {
                      LEFT JOIN cities c  on A.city_id = C.city_id
                      LEFT JOIN catagories ct on A.catagory_id = ct.catagory_id
             """;
+    public static final String CREAT_ANNOUNCEMENT_QUARY = """
+            INSERT INTO announcements 
+            (NAME, DESCRIPTION, ANNOUNCEMENT_NUMBER, PRICE, PHONE_NUMBER,
+            SELLER_FULL_NAME, DELIVERY, CITY_ID, CATAGORY_ID)
+            VALUE (?,?,?,?,?,?,?,?,?,?);
+            """;
 
 }

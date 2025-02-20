@@ -1,13 +1,28 @@
 package com.huseynov.announcementbackend.mapper;
 
-import com.huseynov.announcementbackend.dto.AnnouncementDto;
+import com.huseynov.announcementbackend.dto.AnnouncementRequest;
+import com.huseynov.announcementbackend.dto.AnnouncementResponse;
 import com.huseynov.announcementbackend.entity.Announcement;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface AnnouncementMapper {
-    AnnouncementDto toDto(Announcement announcement);
-    List<AnnouncementDto> toDtoList(List<Announcement> announcements);
+    AnnouncementResponse toResponse(Announcement announcement);
+
+    List<AnnouncementResponse> toResponseList(List<Announcement> announcements);
+
+    @Mapping(target = "announcementNumber", expression = "java(generateAnnouncementNumber())")
+    @Mapping(source = "cityId", target = "city.cityId")
+    @Mapping(source = "catagoryId", target = "catagory.catagoryId")
+    Announcement toEntity(AnnouncementRequest request);
+
+
+    default Long generateAnnouncementNumber() {
+        double d = Math.random() * 100000000;
+        return (long) d;
+
+    }
 }

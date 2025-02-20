@@ -18,6 +18,6 @@ public class Announcement {
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
     private City city;
-    private Category category;
+    private Category catagory;
 
 }

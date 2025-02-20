@@ -1,12 +1,10 @@
 package com.huseynov.announcementbackend.dto;
 
-import com.huseynov.announcementbackend.entity.Category;
-import com.huseynov.announcementbackend.entity.City;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 @Data
-public class AnnouncementDto {
+public class AnnouncementResponse {
     private Long announcementid;
     private String name;
     private String description;
@@ -18,5 +16,5 @@ public class AnnouncementDto {
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
     private CityDto city;
-    private CategoryDto category;
+    private CategoryDto catagory;
 }
