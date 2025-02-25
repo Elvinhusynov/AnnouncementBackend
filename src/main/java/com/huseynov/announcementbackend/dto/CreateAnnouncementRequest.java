@@ -11,5 +11,5 @@ public class CreateAnnouncementRequest {
     private String sellerFullName;
     private Boolean delivery;
     private Long cityId;
-    private Long catagoryId;
+    private Long categoryId;
 }

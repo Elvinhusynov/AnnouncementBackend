@@ -17,7 +17,7 @@ public interface AnnouncementMapper {
 
     @Mapping(target = "announcementNumber", expression = "java(generateAnnouncementNumber())")
     @Mapping(source = "cityId", target = "city.cityId")
-    @Mapping(source = "catagoryId", target = "catagory.catagoryId")
+    @Mapping(source = "categoryId", target = "category.categoryId")
     Announcement toEntity(CreateAnnouncementRequest request);
     Announcement toEntity(Long announcementId,UpdateAnnouncementRequest request);
 

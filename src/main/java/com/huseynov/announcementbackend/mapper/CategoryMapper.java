@@ -14,5 +14,4 @@ public interface CategoryMapper {
     List<CategoryDto> toDtoList(List<Category> categoryList);
 
 
-
 }
