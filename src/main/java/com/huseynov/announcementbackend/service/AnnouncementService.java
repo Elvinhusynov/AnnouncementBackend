@@ -5,12 +5,14 @@ import com.huseynov.announcementbackend.dto.CreateAnnouncementRequest;
 import com.huseynov.announcementbackend.dto.AnnouncementResponse;
 import com.huseynov.announcementbackend.dto.UpdateAnnouncementRequest;
 import com.huseynov.announcementbackend.entity.Announcement;
+import com.huseynov.announcementbackend.exception.NotFoundException;
 import com.huseynov.announcementbackend.mapper.AnnouncementMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -49,8 +51,12 @@ public class AnnouncementService {
     }
 
     public AnnouncementResponse getById(Long announcementId) {
-        Announcement announcement = announcementDao.getById(announcementId);
+        Optional<Announcement> optAnnouncement = announcementDao.findById(announcementId);
+        Announcement announcement = optAnnouncement.orElseThrow(() ->
+                new NotFoundException("Announcement is not found with id: " + announcementId));
+
         log.info("Announcement found: {}", announcement);
+
         return announcementMapper.toResponse(announcement);
     }
 }

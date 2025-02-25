@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Data
 public class Announcement {
-    private Long announcementid;
+    private Long announcementİd;
     private String name;
     private String description;
     private Long announcementNumber;
@@ -18,6 +18,6 @@ public class Announcement {
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
     private City city;
-    private Category catagory;
+    private Category category;
 
 }

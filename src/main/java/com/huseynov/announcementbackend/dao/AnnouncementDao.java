@@ -12,6 +12,7 @@ import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Repository
@@ -28,7 +29,7 @@ public class AnnouncementDao {
             ResultSet resultSet = statement.executeQuery(QueryConstants.Get_Announcement_List_Query);
             while (resultSet.next()) {
                 Announcement announcement = new Announcement();
-                announcement.setAnnouncementid(resultSet.getLong("announcement_id"));
+                announcement.setAnnouncementİd(resultSet.getLong("announcement_id"));
                 announcement.setName(resultSet.getString("name"));
                 announcement.setDescription(resultSet.getString("description"));
                 announcement.setAnnouncementNumber(resultSet.getLong(("announcement_number")));
@@ -50,17 +51,17 @@ public class AnnouncementDao {
                 City city = new City(cityid, cityname);
                 announcement.setCity(city);
 
-                Long catagoryid = resultSet.getLong("catagory_id");
-                String catagoryname = resultSet.getString("catagory_name");
-                Category catagory = new Category(catagoryid, catagoryname);
-                announcement.setCatagory(catagory);
+                Long categoryİd = resultSet.getLong("catagory_id");
+                String categoryName = resultSet.getString("catagory_name");
+                Category category = new Category(categoryİd, categoryName);
+                announcement.setCategory(category);
 
                 announcements.add(announcement);
 
 
             }
         } catch (SQLException e) {
-            log.error(e.getMessage(), e);
+            throw new RuntimeException(e);
         }
 
 
@@ -81,12 +82,12 @@ public class AnnouncementDao {
             preparedStatement.setString(6, announcement.getSellerFullName());
             preparedStatement.setBoolean(7, announcement.getDelivery());
             preparedStatement.setLong(8, announcement.getCity().getCityId());
-            preparedStatement.setLong(9, announcement.getCatagory().getCategoryId());
+            preparedStatement.setLong(9, announcement.getCategory().getCategoryId());
 
             preparedStatement.execute();
 
         } catch (SQLException e) {
-            log.error(e.getMessage(), e);
+            throw new RuntimeException(e);
 
         }
     }
@@ -102,11 +103,11 @@ public class AnnouncementDao {
             preparedStatement.setDouble(3, announcement.getPrice());
             preparedStatement.setString(4, announcement.getSellerFullName());
             preparedStatement.setBoolean(5, announcement.getDelivery());
-            preparedStatement.setLong(6, announcement.getAnnouncementid());
+            preparedStatement.setLong(6, announcement.getAnnouncementİd());
             preparedStatement.execute();
 
         } catch (SQLException e) {
-            log.error(e.getMessage(), e);
+            throw new RuntimeException(e);
         }
     }
 
@@ -121,12 +122,12 @@ public class AnnouncementDao {
             preparedStatement.execute();
 
         } catch (SQLException e) {
-            log.error(e.getMessage(), e);
+            throw new RuntimeException(e);
         }
 
     }
 
-    public Announcement getById(Long announcementId) {
+    public Optional<Announcement> findById(Long announcementId) {
         try (Connection connection = DatabaseConfig.getConnection()) {
             log.info("Get announcement by id query: {}", QueryConstants.GET_ANNOUNCEMENT_BY_ID);
             PreparedStatement preparedStatement = connection.prepareStatement(QueryConstants.GET_ANNOUNCEMENT_BY_ID);
@@ -135,7 +136,7 @@ public class AnnouncementDao {
 
             if (resultSet.next()) {
                 Announcement announcement = new Announcement();
-                announcement.setAnnouncementid(resultSet.getLong("announcement_id"));
+                announcement.setAnnouncementİd(resultSet.getLong("announcement_id"));
                 announcement.setName(resultSet.getString("name"));
                 announcement.setDescription(resultSet.getString("description"));
                 announcement.setAnnouncementNumber(resultSet.getLong("announcement_number"));
@@ -160,15 +161,15 @@ public class AnnouncementDao {
                 Long categoryId = resultSet.getLong("category_id");
                 String categoryName = resultSet.getString("category_name");
                 Category category = new Category(categoryId, categoryName);
-                announcement.setCatagory(category);
+                announcement.setCategory(category);
 
-                return announcement;
+                return Optional.of(announcement);
 
             }
         } catch (SQLException e) {
-            log.error(e.getMessage(), e);
+            throw new RuntimeException(e);
         }
-        return null;
+        return Optional.empty();
     }
 }
 
