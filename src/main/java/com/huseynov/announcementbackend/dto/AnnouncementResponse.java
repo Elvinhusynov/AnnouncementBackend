@@ -5,7 +5,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 @Data
 public class AnnouncementResponse {
-    private Long announcementid;
+    private Long announcementId;
     private String name;
     private String description;
     private Long announcementNumber;
@@ -16,5 +16,5 @@ public class AnnouncementResponse {
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
     private CityDto city;
-    private CategoryDto catagory;
+    private CategoryDto category;
 }

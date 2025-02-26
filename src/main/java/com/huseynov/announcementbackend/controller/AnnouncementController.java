@@ -1,5 +1,6 @@
 package com.huseynov.announcementbackend.controller;
 
+import com.huseynov.announcementbackend.dto.BaseResponse;
 import com.huseynov.announcementbackend.dto.CreateAnnouncementRequest;
 import com.huseynov.announcementbackend.dto.AnnouncementResponse;
 import com.huseynov.announcementbackend.dto.UpdateAnnouncementRequest;
@@ -19,9 +20,14 @@ public class AnnouncementController {
     private final AnnouncementService announcementService;
 
     @GetMapping
-    public List<AnnouncementResponse> getAnnouncements() {
+    public BaseResponse<List<AnnouncementResponse>>getAnnouncements() {
         log.info("Get announcements API is called");
-        return announcementService.getAllAnnouncements();
+
+        List<AnnouncementResponse> responses = announcementService.getAllAnnouncements();
+
+        BaseResponse<List<AnnouncementResponse>> baseResponse = new BaseResponse<>();
+        baseResponse.setData(responses);
+        return baseResponse;
     }
 
     @PostMapping
@@ -46,9 +52,13 @@ public class AnnouncementController {
     }
 
     @GetMapping("/{announcementId}")
-    public AnnouncementResponse getById(@PathVariable("announcementId") Long announcementId) {
+    public BaseResponse <AnnouncementResponse> getById(@PathVariable("announcementId") Long announcementId) {
         log.info("Get announcement API is called, announcementId: {}", announcementId);
-        return announcementService.getById(announcementId);
+        AnnouncementResponse responce = announcementService.getById(announcementId);
+
+        BaseResponse<AnnouncementResponse> baseResponse = new BaseResponse<>();
+        baseResponse.setData(responce);
+        return baseResponse;
     }
 
 }

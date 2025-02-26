@@ -1,5 +1,6 @@
 package com.huseynov.announcementbackend.controller;
 
+import com.huseynov.announcementbackend.dto.BaseResponse;
 import com.huseynov.announcementbackend.dto.CategoryDto;
 import com.huseynov.announcementbackend.service.CategoryService;
 import lombok.RequiredArgsConstructor;
@@ -16,9 +17,15 @@ import java.util.List;
 public class CategoryController {
     private final CategoryService categoryService;
     @GetMapping
-    public List<CategoryDto> getAllCategories() {
+    public BaseResponse<List<CategoryDto>>getAllCategories() {
         log.info("Get all categories API is called");
-        return categoryService.getAllCategories();
+
+        List<CategoryDto> categories = categoryService.getAllCategories();
+
+        BaseResponse<List<CategoryDto>> baseResponse = new BaseResponse<>();
+        baseResponse.setData(categories);
+
+        return baseResponse;
     }
 }
 

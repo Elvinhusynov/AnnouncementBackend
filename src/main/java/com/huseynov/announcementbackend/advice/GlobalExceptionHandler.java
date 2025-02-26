@@ -1,5 +1,6 @@
 package com.huseynov.announcementbackend.advice;
 
+import com.huseynov.announcementbackend.dto.BaseResponse;
 import com.huseynov.announcementbackend.exception.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -17,12 +18,20 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<Object> handleRuntimeException(RuntimeException e) {
         log.error(e.getMessage());
-        return ResponseEntity.status (HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+
+        BaseResponse<Void> baseResponse = new BaseResponse<>();
+        baseResponse.setMessage(e.getMessage());
+
+        return ResponseEntity.status (HttpStatus.INTERNAL_SERVER_ERROR).body(baseResponse);
     }
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<Object> handleNotFoundException(NotFoundException e) {
         log.error(e.getMessage());
-        return ResponseEntity.status (HttpStatus.NOT_FOUND).body(e.getMessage());
+
+        BaseResponse<Void> baseResponse = new BaseResponse<>();
+        baseResponse.setMessage(e.getMessage());
+
+        return ResponseEntity.status (HttpStatus.NOT_FOUND).body(baseResponse);
 
     }
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -33,8 +42,12 @@ public class GlobalExceptionHandler {
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .toList();
         String message = String.join(",", errors);
+
+        BaseResponse<Void> baseResponse = new BaseResponse<>();
+        baseResponse.setMessage(message);
+
         return ResponseEntity.status (HttpStatus.BAD_REQUEST)
-                .body(message);
+                .body(baseResponse);
     }
 
 }
