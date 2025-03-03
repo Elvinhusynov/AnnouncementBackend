@@ -27,7 +27,7 @@ public class CategoryDao {
 
             ResultSet resultSet = statement.executeQuery(QueryConstants.Get_Category_List_Query);
             while (resultSet.next()) {
-                Long id = resultSet.getLong("catagory_id");
+                Long id = resultSet.getLong("category_id");
                 String name = resultSet.getString("name");
                 Category category = new Category(id, name);
                 categories.add(category);

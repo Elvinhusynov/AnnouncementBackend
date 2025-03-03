@@ -1,6 +1,7 @@
 package com.huseynov.announcementbackend.service;
 
 import com.huseynov.announcementbackend.dao.AnnouncementDao;
+import com.huseynov.announcementbackend.dto.BaseResponse;
 import com.huseynov.announcementbackend.dto.CreateAnnouncementRequest;
 import com.huseynov.announcementbackend.dto.AnnouncementResponse;
 import com.huseynov.announcementbackend.dto.UpdateAnnouncementRequest;
@@ -21,12 +22,28 @@ public class AnnouncementService {
     private final AnnouncementDao announcementDao;
     private final AnnouncementMapper announcementMapper;
 
-    public List<AnnouncementResponse> getAllAnnouncements() {
-        List<Announcement> announcements = announcementDao.findAll();
+    public BaseResponse<List<AnnouncementResponse>> getAllAnnouncements(int page , int size) {
+        List<Announcement> announcements = announcementDao.findAll(page , size);
 
         log.info("Announcements found: {}", announcements);
 
-        return announcementMapper.toResponseList(announcements);
+        Integer totalCount = announcementDao.getTotalAnnouncementsCount();
+        log.info("Total announcements count: {}", totalCount);
+        int pageCount;
+        if (totalCount % size == 0) {
+            pageCount = totalCount / size;
+
+        }else {
+            pageCount = totalCount / size + 1;
+        }
+
+        var announcementList =  announcementMapper.toResponseList(announcements);
+
+        BaseResponse<List<AnnouncementResponse>> baseResponse = new BaseResponse<>();
+        baseResponse.setData(announcementList);
+        baseResponse.setPageCount(pageCount);
+        return baseResponse;
+
     }
 
     public void createAnnouncement(CreateAnnouncementRequest request) {

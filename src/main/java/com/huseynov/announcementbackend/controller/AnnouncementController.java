@@ -20,14 +20,12 @@ public class AnnouncementController {
     private final AnnouncementService announcementService;
 
     @GetMapping
-    public BaseResponse<List<AnnouncementResponse>>getAnnouncements() {
+    public BaseResponse<List<AnnouncementResponse>>getAnnouncements(
+            @RequestParam int page,
+            @RequestParam int size) {
         log.info("Get announcements API is called");
 
-        List<AnnouncementResponse> responses = announcementService.getAllAnnouncements();
-
-        BaseResponse<List<AnnouncementResponse>> baseResponse = new BaseResponse<>();
-        baseResponse.setData(responses);
-        return baseResponse;
+        return announcementService.getAllAnnouncements(page, size);
     }
 
     @PostMapping

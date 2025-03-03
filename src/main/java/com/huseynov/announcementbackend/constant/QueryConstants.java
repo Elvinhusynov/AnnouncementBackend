@@ -21,6 +21,7 @@ public class QueryConstants {
             FROM announcements a
                      LEFT JOIN cities c  on A.city_id = C.city_id
                      LEFT JOIN categories ct on A.category_id = ct.category_id
+            LIMIT ?  OFFSET ?
             """;
     public static final String CREAT_ANNOUNCEMENT_QUERY = """
             INSERT INTO announcements,
@@ -61,5 +62,8 @@ public class QueryConstants {
                       LEFT JOIN cities c  on A.city_id = C.city_id
                       LEFT JOIN categories ct on A.category_id = ct.category_id
             WHERE announcement_id = ?
+            """;
+    public static final String GET_ANNOUNCEMENT_COUNT_QUERY = """
+            SELECT COUNT(*) as totalCount FROM announcements
             """;
 }

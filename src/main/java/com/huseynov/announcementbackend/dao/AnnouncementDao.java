@@ -18,15 +18,19 @@ import java.util.Optional;
 @Repository
 
 public class AnnouncementDao {
-    public List<Announcement> findAll() {
+    public List<Announcement> findAll(int page , int size) {
         List<Announcement> announcements = new ArrayList<>();
         try (Connection connection = DatabaseConfig.getConnection()) {
 
-            Statement statement = connection.createStatement();
-
             log.info("Get announcement list query: {}", QueryConstants.Get_Announcement_List_Query);
 
-            ResultSet resultSet = statement.executeQuery(QueryConstants.Get_Announcement_List_Query);
+            int offset = size * (page - 1);
+
+            PreparedStatement statement = connection.prepareStatement(QueryConstants.Get_Announcement_List_Query);
+            statement.setInt(1, size);
+            statement.setInt(2, offset);
+
+            ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Announcement announcement = new Announcement();
                 announcement.setAnnouncementİd(resultSet.getLong("announcement_id"));
@@ -46,13 +50,13 @@ public class AnnouncementDao {
                 LocalDateTime modifiedDateTime = modifiedDate.toLocalDateTime();
                 announcement.setModifiedDate(modifiedDateTime);
 
-                Long cityid = resultSet.getLong("city_id");
-                String cityname = resultSet.getString("city_name");
-                City city = new City(cityid, cityname);
+                Long cityId = resultSet.getLong("city_id");
+                String cityName = resultSet.getString("city_name");
+                City city = new City(cityId, cityName);
                 announcement.setCity(city);
 
-                Long categoryİd = resultSet.getLong("catagory_id");
-                String categoryName = resultSet.getString("catagory_name");
+                Long categoryİd = resultSet.getLong("category_id");
+                String categoryName = resultSet.getString("category_name");
                 Category category = new Category(categoryİd, categoryName);
                 announcement.setCategory(category);
 
@@ -170,6 +174,19 @@ public class AnnouncementDao {
             throw new RuntimeException(e);
         }
         return Optional.empty();
+    }
+    public Integer getTotalAnnouncementsCount() {
+        try (Connection connection = DatabaseConfig.getConnection()) {
+            log.info("Get announcement count query: {}", QueryConstants.GET_ANNOUNCEMENT_COUNT_QUERY);
+           Statement statement = connection.createStatement();
+           ResultSet resultSet = statement.executeQuery(QueryConstants.GET_ANNOUNCEMENT_COUNT_QUERY);
+           if (resultSet.next()) {
+               return resultSet.getInt("totalCount");
+           }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return 0;
     }
 }
 

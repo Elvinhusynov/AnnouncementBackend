@@ -8,6 +8,7 @@ import lombok.experimental.FieldDefaults;
 public class BaseResponse <T> {
     T data;
     String message;
+    Integer pageCount;
 
 
 
