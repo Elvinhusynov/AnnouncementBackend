@@ -1,7 +1,8 @@
-package com.huseynov.announcementbackend.dao;
+package com.huseynov.announcementbackend.dao.jdbcimpl;
 
 import com.huseynov.announcementbackend.config.DatabaseConfig;
 import com.huseynov.announcementbackend.constant.QueryConstants;
+import com.huseynov.announcementbackend.dao.AnnouncementDao;
 import com.huseynov.announcementbackend.entity.Announcement;
 import com.huseynov.announcementbackend.entity.Category;
 import com.huseynov.announcementbackend.entity.City;
@@ -15,10 +16,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Slf4j
-@Repository
+@Repository("announcementDaoJdbcImpl")
 
-public class AnnouncementDao {
-    public List<Announcement> findAll(int page , int size) {
+public class AnnouncementDaoJdbcImpl implements AnnouncementDao {
+    @Override
+    public List<Announcement> findAll(int page, int size) {
         List<Announcement> announcements = new ArrayList<>();
         try (Connection connection = DatabaseConfig.getConnection()) {
 
@@ -33,7 +35,7 @@ public class AnnouncementDao {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Announcement announcement = new Announcement();
-                announcement.setAnnouncementİd(resultSet.getLong("announcement_id"));
+                announcement.setAnnouncementId(resultSet.getLong("announcement_id"));
                 announcement.setName(resultSet.getString("name"));
                 announcement.setDescription(resultSet.getString("description"));
                 announcement.setAnnouncementNumber(resultSet.getLong(("announcement_number")));
@@ -72,6 +74,7 @@ public class AnnouncementDao {
         return announcements;
     }
 
+    @Override
     public void create(Announcement announcement) {
         try (Connection connection = DatabaseConfig.getConnection()) {
 
@@ -96,6 +99,7 @@ public class AnnouncementDao {
         }
     }
 
+    @Override
     public void update(Announcement announcement) {
         try (Connection connection = DatabaseConfig.getConnection()) {
 
@@ -107,7 +111,7 @@ public class AnnouncementDao {
             preparedStatement.setDouble(3, announcement.getPrice());
             preparedStatement.setString(4, announcement.getSellerFullName());
             preparedStatement.setBoolean(5, announcement.getDelivery());
-            preparedStatement.setLong(6, announcement.getAnnouncementİd());
+            preparedStatement.setLong(6, announcement.getAnnouncementId());
             preparedStatement.execute();
 
         } catch (SQLException e) {
@@ -115,6 +119,7 @@ public class AnnouncementDao {
         }
     }
 
+    @Override
     public void delete(Long announcementId) {
         try (Connection connection = DatabaseConfig.getConnection()) {
 
@@ -131,6 +136,7 @@ public class AnnouncementDao {
 
     }
 
+    @Override
     public Optional<Announcement> findById(Long announcementId) {
         try (Connection connection = DatabaseConfig.getConnection()) {
             log.info("Get announcement by id query: {}", QueryConstants.GET_ANNOUNCEMENT_BY_ID);
@@ -140,7 +146,7 @@ public class AnnouncementDao {
 
             if (resultSet.next()) {
                 Announcement announcement = new Announcement();
-                announcement.setAnnouncementİd(resultSet.getLong("announcement_id"));
+                announcement.setAnnouncementId(resultSet.getLong("announcement_id"));
                 announcement.setName(resultSet.getString("name"));
                 announcement.setDescription(resultSet.getString("description"));
                 announcement.setAnnouncementNumber(resultSet.getLong("announcement_number"));
@@ -175,14 +181,16 @@ public class AnnouncementDao {
         }
         return Optional.empty();
     }
+
+    @Override
     public Integer getTotalAnnouncementsCount() {
         try (Connection connection = DatabaseConfig.getConnection()) {
             log.info("Get announcement count query: {}", QueryConstants.GET_ANNOUNCEMENT_COUNT_QUERY);
-           Statement statement = connection.createStatement();
-           ResultSet resultSet = statement.executeQuery(QueryConstants.GET_ANNOUNCEMENT_COUNT_QUERY);
-           if (resultSet.next()) {
-               return resultSet.getInt("totalCount");
-           }
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(QueryConstants.GET_ANNOUNCEMENT_COUNT_QUERY);
+            if (resultSet.next()) {
+                return resultSet.getInt("totalCount");
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

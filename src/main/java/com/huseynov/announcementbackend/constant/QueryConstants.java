@@ -27,7 +27,7 @@ public class QueryConstants {
             INSERT INTO announcements,
             (NAME, DESCRIPTION, ANNOUNCEMENT_NUMBER, PRICE, PHONE_NUMBER,
             SELLER_FULL_NAME, DELIVERY, CITY_ID, CATEGORY_ID)
-            VALUE (?,?,?,?,?,?,?,?,?,?);
+            VALUE (?,?,?,?,?,?,?,?,?);
             """;
     public static final String UPDATE_ANNOUNCEMENT_QUERY = """
             UPDATE announcements

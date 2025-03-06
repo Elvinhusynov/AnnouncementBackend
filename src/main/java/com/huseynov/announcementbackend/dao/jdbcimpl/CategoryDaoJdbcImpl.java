@@ -1,7 +1,8 @@
-package com.huseynov.announcementbackend.dao;
+package com.huseynov.announcementbackend.dao.jdbcimpl;
 
 import com.huseynov.announcementbackend.config.DatabaseConfig;
 import com.huseynov.announcementbackend.constant.QueryConstants;
+import com.huseynov.announcementbackend.dao.CategoryDao;
 import com.huseynov.announcementbackend.entity.Category;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
@@ -14,8 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
-@Repository
-public class CategoryDao {
+@Repository("categoryDaoJdbcImpl")
+public class CategoryDaoJdbcImpl implements CategoryDao {
+    @Override
     public List<Category> findAll() {
         log.info("Getting categories from database");
         List<Category> categories = new ArrayList<>();

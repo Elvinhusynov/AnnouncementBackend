@@ -1,13 +1,17 @@
 package com.huseynov.announcementbackend.entity;
 
-import lombok.AllArgsConstructor;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @Data
+@Entity
+@Table(name = "announcements")
 public class Announcement {
-    private Long announcementİd;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long announcementId;
     private String name;
     private String description;
     private Long announcementNumber;
@@ -17,7 +21,13 @@ public class Announcement {
     private Boolean delivery;
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
+
+    @JoinColumn(name = "city_id" , referencedColumnName = "city_id")
+    @ManyToOne
     private City city;
+
+    @JoinColumn(name = "category_id" , referencedColumnName = "category_id")
+    @ManyToOne
     private Category category;
 
 }

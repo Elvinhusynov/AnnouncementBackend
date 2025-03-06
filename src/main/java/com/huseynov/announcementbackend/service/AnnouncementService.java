@@ -10,6 +10,7 @@ import com.huseynov.announcementbackend.exception.NotFoundException;
 import com.huseynov.announcementbackend.mapper.AnnouncementMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,13 +18,20 @@ import java.util.Optional;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
+
 public class AnnouncementService {
     private final AnnouncementDao announcementDao;
     private final AnnouncementMapper announcementMapper;
 
-    public BaseResponse<List<AnnouncementResponse>> getAllAnnouncements(int page , int size) {
-        List<Announcement> announcements = announcementDao.findAll(page , size);
+    public AnnouncementService(
+            @Qualifier("announcementDaoJpaImpl") AnnouncementDao announcementDao,
+            AnnouncementMapper announcementMapper) {
+        this.announcementDao = announcementDao;
+        this.announcementMapper = announcementMapper;
+    }
+
+    public BaseResponse<List<AnnouncementResponse>> getAllAnnouncements(int page, int size) {
+        List<Announcement> announcements = announcementDao.findAll(page, size);
 
         log.info("Announcements found: {}", announcements);
 
@@ -33,11 +41,11 @@ public class AnnouncementService {
         if (totalCount % size == 0) {
             pageCount = totalCount / size;
 
-        }else {
+        } else {
             pageCount = totalCount / size + 1;
         }
 
-        var announcementList =  announcementMapper.toResponseList(announcements);
+        var announcementList = announcementMapper.toResponseList(announcements);
 
         BaseResponse<List<AnnouncementResponse>> baseResponse = new BaseResponse<>();
         baseResponse.setData(announcementList);
@@ -55,7 +63,12 @@ public class AnnouncementService {
     }
 
     public void updateAnnouncement(Long announcementId, UpdateAnnouncementRequest request) {
-        Announcement announcement = announcementMapper.toEntity(announcementId, request);
+
+        Optional<Announcement> optAnnouncement = announcementDao.findById(announcementId);
+        Announcement announcement = optAnnouncement.orElseThrow(() ->
+                new NotFoundException("Announcement is not found with id: " + announcementId));
+
+        announcementMapper.populate(request, announcement);
 
         log.info("Announcement updated entity: {}", announcement);
 

@@ -2,6 +2,7 @@ package com.huseynov.announcementbackend.dto;
 
 import jakarta.validation.constraints.*;
 import lombok.Data;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Data
 public class CreateAnnouncementRequest {
@@ -21,7 +22,6 @@ public class CreateAnnouncementRequest {
 
     private String sellerFullName;
     private Boolean delivery;
-
     @NotNull(message = "City id can not be null")
     private Long cityId;
 

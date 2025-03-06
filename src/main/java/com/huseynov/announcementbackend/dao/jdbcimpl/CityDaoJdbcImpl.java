@@ -1,7 +1,8 @@
-package com.huseynov.announcementbackend.dao;
+package com.huseynov.announcementbackend.dao.jdbcimpl;
 
 import com.huseynov.announcementbackend.config.DatabaseConfig;
 import com.huseynov.announcementbackend.constant.QueryConstants;
+import com.huseynov.announcementbackend.dao.CityDao;
 import com.huseynov.announcementbackend.entity.City;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
@@ -11,8 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
-@Repository
-public class CityDao {
+@Repository("cityDaoJdbcImpl")
+public class CityDaoJdbcImpl implements CityDao {
+    @Override
     public List<City> findAll() {
         log.info("Getting cities from database");
 
