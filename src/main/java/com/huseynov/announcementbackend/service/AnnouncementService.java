@@ -6,11 +6,13 @@ import com.huseynov.announcementbackend.dto.CreateAnnouncementRequest;
 import com.huseynov.announcementbackend.dto.AnnouncementResponse;
 import com.huseynov.announcementbackend.dto.UpdateAnnouncementRequest;
 import com.huseynov.announcementbackend.entity.Announcement;
+import com.huseynov.announcementbackend.enums.SortDirection;
 import com.huseynov.announcementbackend.exception.NotFoundException;
 import com.huseynov.announcementbackend.mapper.AnnouncementMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,26 +32,18 @@ public class AnnouncementService {
         this.announcementMapper = announcementMapper;
     }
 
-    public BaseResponse<List<AnnouncementResponse>> getAllAnnouncements(int page, int size) {
-        List<Announcement> announcements = announcementDao.findAll(page, size);
+    public BaseResponse<List<AnnouncementResponse>> getAllAnnouncements(
+            int page, int size, SortDirection sortCreatedDate,String name,String description) {
+        Page<Announcement> announcementsPage = announcementDao.findAll(page, size ,sortCreatedDate,name,description);
 
+        List<Announcement> announcements = announcementsPage.getContent();
         log.info("Announcements found: {}", announcements);
-
-        Integer totalCount = announcementDao.getTotalAnnouncementsCount();
-        log.info("Total announcements count: {}", totalCount);
-        int pageCount;
-        if (totalCount % size == 0) {
-            pageCount = totalCount / size;
-
-        } else {
-            pageCount = totalCount / size + 1;
-        }
 
         var announcementList = announcementMapper.toResponseList(announcements);
 
         BaseResponse<List<AnnouncementResponse>> baseResponse = new BaseResponse<>();
         baseResponse.setData(announcementList);
-        baseResponse.setPageCount(pageCount);
+        baseResponse.setPageCount(announcementsPage.getTotalPages());
         return baseResponse;
 
     }

@@ -4,6 +4,7 @@ import com.huseynov.announcementbackend.dto.BaseResponse;
 import com.huseynov.announcementbackend.dto.CreateAnnouncementRequest;
 import com.huseynov.announcementbackend.dto.AnnouncementResponse;
 import com.huseynov.announcementbackend.dto.UpdateAnnouncementRequest;
+import com.huseynov.announcementbackend.enums.SortDirection;
 import com.huseynov.announcementbackend.service.AnnouncementService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,11 +22,14 @@ public class AnnouncementController {
 
     @GetMapping
     public BaseResponse<List<AnnouncementResponse>>getAnnouncements(
-            @RequestParam int page,
-            @RequestParam int size) {
+            @RequestParam("page") int page,
+            @RequestParam("size") int size,
+            @RequestParam(value = "sortByCreatedDate",required = false) SortDirection sortCreatedDate,
+            @RequestParam(value = "name",required = false,defaultValue = "")String name,
+            @RequestParam(value = "description",required = false,defaultValue = "")String description) {
         log.info("Get announcements API is called");
 
-        return announcementService.getAllAnnouncements(page, size);
+        return announcementService.getAllAnnouncements(page, size, sortCreatedDate,name,description);
     }
 
     @PostMapping

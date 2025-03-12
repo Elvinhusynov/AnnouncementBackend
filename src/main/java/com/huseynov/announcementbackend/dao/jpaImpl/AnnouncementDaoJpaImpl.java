@@ -2,13 +2,20 @@ package com.huseynov.announcementbackend.dao.jpaImpl;
 
 import com.huseynov.announcementbackend.dao.AnnouncementDao;
 import com.huseynov.announcementbackend.entity.Announcement;
+import com.huseynov.announcementbackend.enums.SortDirection;
 import com.huseynov.announcementbackend.repository.AnnouncementRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+
+import static com.sun.beans.introspect.PropertyInfo.Name.description;
 
 @Slf4j
 @Repository("announcementDaoJpaImpl")
@@ -17,10 +24,25 @@ public class AnnouncementDaoJpaImpl implements AnnouncementDao {
     private final AnnouncementRepository announcementRepository;
 
     @Override
-    public List<Announcement> findAll(int page, int size) {
+    public Page<Announcement> findAll(int page, int size, SortDirection sortCreatedDate,String name) {
         log.info("Find all announcements method is called from Jpa Implementation of AnnouncementDao");
 
-        return announcementRepository.findAll();
+        Sort sort = null;
+        //sort - database dən sorğu çəkərkən sıralamadan istifadə etmək üçündür.
+        if (sortCreatedDate == SortDirection.ASC) {
+        sort = Sort.by(Sort.Direction.ASC, "createdDate");
+        } else if (sortCreatedDate == SortDirection.DESC) {
+            sort = Sort.by(Sort.Direction.DESC, "createdDate");
+        }
+
+        Pageable pageable = null;//pagination burda reallasdiririq.
+        if(sort != null){
+            pageable = PageRequest.of(page-1, size,sort);
+        } else {
+            pageable = PageRequest.of(page-1, size);
+        }
+
+        return announcementRepository.findAllByNameContainingAndDescriptionContaining(name,description,pageable);
     }
 
     @Override

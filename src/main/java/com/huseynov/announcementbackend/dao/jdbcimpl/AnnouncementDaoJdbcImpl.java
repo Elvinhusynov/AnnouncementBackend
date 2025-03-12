@@ -6,7 +6,9 @@ import com.huseynov.announcementbackend.dao.AnnouncementDao;
 import com.huseynov.announcementbackend.entity.Announcement;
 import com.huseynov.announcementbackend.entity.Category;
 import com.huseynov.announcementbackend.entity.City;
+import com.huseynov.announcementbackend.enums.SortDirection;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -20,7 +22,7 @@ import java.util.Optional;
 
 public class AnnouncementDaoJdbcImpl implements AnnouncementDao {
     @Override
-    public List<Announcement> findAll(int page, int size) {
+    public Page <Announcement> findAll(int page, int size, SortDirection sortCreatedDate,String name,String description) {
         List<Announcement> announcements = new ArrayList<>();
         try (Connection connection = DatabaseConfig.getConnection()) {
 
