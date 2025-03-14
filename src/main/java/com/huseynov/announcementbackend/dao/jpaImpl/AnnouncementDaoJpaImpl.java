@@ -12,10 +12,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+
 import java.util.Optional;
 
-import static com.sun.beans.introspect.PropertyInfo.Name.description;
 
 @Slf4j
 @Repository("announcementDaoJpaImpl")
@@ -24,7 +23,8 @@ public class AnnouncementDaoJpaImpl implements AnnouncementDao {
     private final AnnouncementRepository announcementRepository;
 
     @Override
-    public Page<Announcement> findAll(int page, int size, SortDirection sortCreatedDate,String name) {
+    public Page<Announcement> findAll(int page, int size, SortDirection sortCreatedDate,String name,
+                                      String description) {
         log.info("Find all announcements method is called from Jpa Implementation of AnnouncementDao");
 
         Sort sort = null;

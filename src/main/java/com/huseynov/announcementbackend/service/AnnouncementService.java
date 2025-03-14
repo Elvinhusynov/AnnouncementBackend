@@ -9,7 +9,6 @@ import com.huseynov.announcementbackend.entity.Announcement;
 import com.huseynov.announcementbackend.enums.SortDirection;
 import com.huseynov.announcementbackend.exception.NotFoundException;
 import com.huseynov.announcementbackend.mapper.AnnouncementMapper;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;

@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Mapper(componentModel = "spring",
-nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface AnnouncementMapper {
     AnnouncementResponse toResponse(Announcement announcement);
 
@@ -22,17 +22,18 @@ public interface AnnouncementMapper {
     @Mapping(target = "announcementNumber", expression = "java(generateAnnouncementNumber())")
     @Mapping(source = "cityId", target = "city.cityId")
     @Mapping(source = "categoryId", target = "category.categoryId")
-    @Mapping(target = "createdDate" , expression = "java(getNow())")
+    @Mapping(target = "createdDate", expression = "java(getNow())")
     Announcement toEntity(CreateAnnouncementRequest request);
 
-    @Mapping(target = "modifiedDate" , expression = "java(getNow())")
-    void populate (UpdateAnnouncementRequest request , @MappingTarget Announcement announcement);
+    @Mapping(target = "modifiedDate", expression = "java(getNow())")
+    void populate(UpdateAnnouncementRequest request, @MappingTarget Announcement announcement);
 
     default Long generateAnnouncementNumber() {
         double d = Math.random() * 100000000;
         return (long) d;
 
     }
+
     default LocalDateTime getNow() {
         return LocalDateTime.now();
     }

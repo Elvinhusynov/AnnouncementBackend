@@ -15,7 +15,9 @@ import java.util.List;
 @RequestMapping("api/v1/categories")
 @RequiredArgsConstructor
 public class CategoryController {
+
     private final CategoryService categoryService;
+
     @GetMapping
     public BaseResponse<List<CategoryDto>>getAllCategories() {
         log.info("Get all categories API is called");

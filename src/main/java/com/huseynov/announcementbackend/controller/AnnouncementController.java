@@ -56,10 +56,10 @@ public class AnnouncementController {
     @GetMapping("/{announcementId}")
     public BaseResponse <AnnouncementResponse> getById(@PathVariable("announcementId") Long announcementId) {
         log.info("Get announcement API is called, announcementId: {}", announcementId);
-        AnnouncementResponse responce = announcementService.getById(announcementId);
+        AnnouncementResponse response = announcementService.getById(announcementId);
 
         BaseResponse<AnnouncementResponse> baseResponse = new BaseResponse<>();
-        baseResponse.setData(responce);
+        baseResponse.setData(response);
         return baseResponse;
     }
 

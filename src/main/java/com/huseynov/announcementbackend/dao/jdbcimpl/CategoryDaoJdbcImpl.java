@@ -25,9 +25,9 @@ public class CategoryDaoJdbcImpl implements CategoryDao {
 
             Statement statement = connection.createStatement();
 
-            log.info("Get categories query :{}", QueryConstants.Get_Category_List_Query);
+            log.info("Get categories query :{}", QueryConstants.GET_CATEGORY_LIST_QUERY);
 
-            ResultSet resultSet = statement.executeQuery(QueryConstants.Get_Category_List_Query);
+            ResultSet resultSet = statement.executeQuery(QueryConstants.GET_CATEGORY_LIST_QUERY);
             while (resultSet.next()) {
                 Long id = resultSet.getLong("category_id");
                 String name = resultSet.getString("name");

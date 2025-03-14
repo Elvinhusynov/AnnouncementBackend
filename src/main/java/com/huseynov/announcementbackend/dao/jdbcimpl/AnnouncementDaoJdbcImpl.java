@@ -22,15 +22,16 @@ import java.util.Optional;
 
 public class AnnouncementDaoJdbcImpl implements AnnouncementDao {
     @Override
-    public Page <Announcement> findAll(int page, int size, SortDirection sortCreatedDate,String name,String description) {
+    public Page <Announcement> findAll(int page, int size, SortDirection sortCreatedDate,
+                                       String name,String description) {
         List<Announcement> announcements = new ArrayList<>();
         try (Connection connection = DatabaseConfig.getConnection()) {
 
-            log.info("Get announcement list query: {}", QueryConstants.Get_Announcement_List_Query);
+            log.info("Get announcement list query: {}", QueryConstants.GET_ANNOUNCEMENT_LIST_QUERY);
 
             int offset = size * (page - 1);
 
-            PreparedStatement statement = connection.prepareStatement(QueryConstants.Get_Announcement_List_Query);
+            PreparedStatement statement = connection.prepareStatement(QueryConstants.GET_ANNOUNCEMENT_LIST_QUERY);
             statement.setInt(1, size);
             statement.setInt(2, offset);
 

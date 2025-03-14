@@ -22,9 +22,9 @@ public class CityDaoJdbcImpl implements CityDao {
         try (Connection connection = DatabaseConfig.getConnection()) {
 
             Statement statement = connection.createStatement();
-            log.info("Getting cities from database : {}", QueryConstants.Get_City_List_Query);
+            log.info("Getting cities from database : {}", QueryConstants.GET_CITY_LIST_QUERY);
 
-            ResultSet resultSet = statement.executeQuery(QueryConstants.Get_City_List_Query);
+            ResultSet resultSet = statement.executeQuery(QueryConstants.GET_CITY_LIST_QUERY);
             while (resultSet.next()) {
                 Long id = resultSet.getLong("city_id");
                 String name = resultSet.getString("name");
