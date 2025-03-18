@@ -12,7 +12,10 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Long
     Page<Announcement> findAllByNameContainingAndDescriptionContaining(
             String name, String description, Pageable pageable);//elanda ada gore axtaris metodu
     //Containing-meselen elan adi lenovo noutbookdu lenovo yazanda elanin adi tam gelir
+
+
 //-------------------------------------------------------------------------------------------------
+
     //jpql - Database qoshulmaq uchun istifade edirik,kompleks query olanda yazilir
     @Query("""
                     select a
@@ -22,7 +25,9 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Long
             """)
     Page<Announcement> findAllWithJpql(@Param("name") String name, @Param("description") String description,
                                        Pageable pageable);
+
 //--------------------------------------------------------------------------------------------------
+
     //MySql - dahada murekkeb querylerde istifade olunur
     @Query(value = """
             select *
