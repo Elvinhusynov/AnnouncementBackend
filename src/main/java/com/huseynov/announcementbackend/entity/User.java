@@ -33,7 +33,7 @@ public class User { // saytin security hissesidi,login,parol.
 
     private boolean enabled; // user nomresin,emailin ve sair yazib ancaq qeydiyyatdan kecmiyib onun ucundur.
 
-    private LocalDate createdDate;
+    private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
 
 

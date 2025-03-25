@@ -1,20 +1,35 @@
 package com.huseynov.announcementbackend.dto;
 
-import com.huseynov.announcementbackend.enums.Role;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import lombok.Data;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.validation.constraints.*;
+import lombok.Data;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+
 @Data
 public class UserRegisterRequest {
+
+    @NotBlank(message = "Name can not be blank")
     private String name;
+
+    @NotBlank(message = "Surname can not be blank")
     private String surname;
+
+    @JsonFormat(pattern = "dd-MM-yyyy") // burda dd-gun, MM-ay, yyyy-ildir.
     private LocalDate birthdate;
+
+    @NotNull(message = "Phone number can not be null")
+    @Size(min = 10, max = 10, message = "Phone number must contain 10 characters")
+    @Pattern(regexp = "\\d{10}",message = "Phone number must contain only digits")
     private String phoneNumber;
+
+    @Email(message = "Email must be valid")
     private String email;
+
+    @NotBlank(message = "Username can not be blank")
     private String username;
+
+    @NotBlank(message = "Password can not be blank")
     private String password;
 
 }

@@ -74,7 +74,7 @@ public class AnnouncementDaoJdbcImpl implements AnnouncementDao {
         }
 
 
-        return announcements;
+        return Page.empty();
     }
 
     @Override

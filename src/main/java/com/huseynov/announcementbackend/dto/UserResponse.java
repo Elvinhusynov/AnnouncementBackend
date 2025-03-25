@@ -1,5 +1,6 @@
 package com.huseynov.announcementbackend.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.huseynov.announcementbackend.enums.Role;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -18,7 +19,11 @@ public class UserResponse { // Istifadecini qaytarmaq ucun
     private String email;
     private String username;
     private Role role;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss") //HH-saat,mm-dəqiqə,ss-saniyə
     private LocalDate createdDate;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime modifiedDate;
 
 }

@@ -21,15 +21,16 @@ public class AnnouncementController {
     private final AnnouncementService announcementService;
 
     @GetMapping
-    public BaseResponse<List<AnnouncementResponse>>getAnnouncements(
+    public BaseResponse<List<AnnouncementResponse>> getAnnouncements(
             @RequestParam("page") int page,
             @RequestParam("size") int size,
-            @RequestParam(value = "sortByCreatedDate",required = false) SortDirection sortCreatedDate,
-            @RequestParam(value = "name",required = false,defaultValue = "")String name,
-            @RequestParam(value = "description",required = false,defaultValue = "")String description) {
+            @RequestParam(value = "sortByCreatedDate", required = false) SortDirection sortCreatedDate,
+            @RequestParam(value = "name", required = false, defaultValue = "") String name,
+            @RequestParam(value = "description", required = false, defaultValue = "") String description){
+
         log.info("Get announcements API is called");
 
-        return announcementService.getAllAnnouncements(page, size, sortCreatedDate,name,description);
+        return announcementService.getAllAnnouncements(page, size, sortCreatedDate, name, description);
     }
 
     @PostMapping
@@ -54,7 +55,7 @@ public class AnnouncementController {
     }
 
     @GetMapping("/{announcementId}")
-    public BaseResponse <AnnouncementResponse> getById(@PathVariable("announcementId") Long announcementId) {
+    public BaseResponse<AnnouncementResponse> getById(@PathVariable("announcementId") Long announcementId) {
         log.info("Get announcement API is called, announcementId: {}", announcementId);
         AnnouncementResponse response = announcementService.getById(announcementId);
 

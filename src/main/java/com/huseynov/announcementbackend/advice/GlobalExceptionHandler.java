@@ -1,6 +1,7 @@
 package com.huseynov.announcementbackend.advice;
 
 import com.huseynov.announcementbackend.dto.BaseResponse;
+import com.huseynov.announcementbackend.exception.ConflictException;
 import com.huseynov.announcementbackend.exception.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -23,6 +24,16 @@ public class GlobalExceptionHandler {
         baseResponse.setMessage(e.getMessage());
 
         return ResponseEntity.status (HttpStatus.INTERNAL_SERVER_ERROR).body(baseResponse);
+    }
+    @ExceptionHandler(ConflictException.class)
+    public ResponseEntity<Object> handleConflictException(ConflictException e) {
+        log.error(e.getMessage());
+
+        BaseResponse<Void> baseResponse = new BaseResponse<>();
+        baseResponse.setMessage(e.getMessage());
+
+        return ResponseEntity.status (HttpStatus.CONFLICT).body(baseResponse);
+
     }
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<Object> handleNotFoundException(NotFoundException e) {

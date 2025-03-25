@@ -10,4 +10,6 @@ public interface UserDao {
     Optional<User> findById(Long id);// istifadecini id sine gore axtarmaq
 
     void delete(Long id);// istifadecini silmek
+
+    Optional<User> findByUsername(String username);
 }
