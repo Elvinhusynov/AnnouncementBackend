@@ -6,6 +6,7 @@ import com.huseynov.announcementbackend.dto.AnnouncementResponse;
 import com.huseynov.announcementbackend.dto.UpdateAnnouncementRequest;
 import com.huseynov.announcementbackend.enums.SortDirection;
 import com.huseynov.announcementbackend.service.AnnouncementService;
+import com.huseynov.announcementbackend.service.JwtService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AnnouncementController {
     private final AnnouncementService announcementService;
+    private final JwtService jwtService;
 
     @GetMapping
     public BaseResponse<List<AnnouncementResponse>> getAnnouncements(
@@ -27,7 +29,6 @@ public class AnnouncementController {
             @RequestParam(value = "sortByCreatedDate", required = false) SortDirection sortCreatedDate,
             @RequestParam(value = "name", required = false, defaultValue = "") String name,
             @RequestParam(value = "description", required = false, defaultValue = "") String description){
-
         log.info("Get announcements API is called");
 
         return announcementService.getAllAnnouncements(page, size, sortCreatedDate, name, description);
