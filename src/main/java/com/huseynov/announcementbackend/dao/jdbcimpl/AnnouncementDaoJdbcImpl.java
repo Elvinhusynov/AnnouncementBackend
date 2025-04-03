@@ -78,7 +78,7 @@ public class AnnouncementDaoJdbcImpl implements AnnouncementDao {
     }
 
     @Override
-    public void create(Announcement announcement) {
+    public Announcement create(Announcement announcement) {
         try (Connection connection = DatabaseConfig.getConnection()) {
 
             log.info("Create announcement query: {}", QueryConstants.CREAT_ANNOUNCEMENT_QUERY);
@@ -100,6 +100,7 @@ public class AnnouncementDaoJdbcImpl implements AnnouncementDao {
             throw new RuntimeException(e);
 
         }
+        return null;
     }
 
     @Override

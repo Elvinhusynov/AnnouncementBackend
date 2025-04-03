@@ -4,6 +4,7 @@ import com.huseynov.announcementbackend.dto.CreateAnnouncementRequest;
 import com.huseynov.announcementbackend.dto.AnnouncementResponse;
 import com.huseynov.announcementbackend.dto.UpdateAnnouncementRequest;
 import com.huseynov.announcementbackend.entity.Announcement;
+import com.huseynov.announcementbackend.entity.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -15,6 +16,9 @@ import java.util.List;
 @Mapper(componentModel = "spring",
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface AnnouncementMapper {
+    @Mapping(source = "user.phoneNumber",target = "phoneNumber")
+        //18 sətrdəki mapping ->user -ın içindəki phoneNumber set olunsun AnnouncementResponse-dakı phoneNumbera
+    @Mapping(target = "sellerFullName",expression = "java(mapName(announcement.getUser))")
     AnnouncementResponse toResponse(Announcement announcement);
 
     List<AnnouncementResponse> toResponseList(List<Announcement> announcements);
@@ -36,5 +40,9 @@ public interface AnnouncementMapper {
 
     default LocalDateTime getNow() {
         return LocalDateTime.now();
+    }
+
+    default String mapName(User user) {
+        return user.getName() + " " + user.getUsername();
     }
 }

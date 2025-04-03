@@ -10,46 +10,33 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.Set;
 
 @Component
 @RequiredArgsConstructor
 public class AuthorizationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
-    private final UserDetailsService userDetailsService;
-    private final MessageSource messageSource;
-
-    private static final Set<String> SERVLET_PATHS = Set.of("/admin/auth",
-            "/customer/auth",
-            "/customer/file",
-            "/customer/intro-page",
-            "/customer/customer-profession",
-            "/customer/default-file",
-            "/v3/api-docs",
-            "/swagger-ui");
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request,//request-in data-sın daşıyır
                                     @NonNull HttpServletResponse response,//response-un data-sın daşıyır.
                                     @NonNull FilterChain filterChain)//sorğunu zəncirvari davam etdirmək üçündü.
             throws ServletException, IOException {
-//        for (String path : SERVLET_PATHS)
-//            if (request.getServletPath().startsWith(path)) {
-//                filterChain.doFilter(request, response);
-//                return;
-//            }
+
+        if (request.getServletPath().equals("/api/v1/auth/login") //->bunu yazaraq deyirikki tokensiz login ol
+            || request.getServletPath().equals("/api/v1/auth/sign-up")) { //->bunu yazaraq deyirikki tokensiz sign-up ol
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         final String authorizationHeader = request.getHeader("Authorization");//Bearer tokensdfds
         final String prefix = "Bearer ";
@@ -68,7 +55,7 @@ public class AuthorizationFilter extends OncePerRequestFilter {
                     if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                         UsernamePasswordAuthenticationToken authenticationToken =
                                 new UsernamePasswordAuthenticationToken(
-                                username, null, null);
+                                        username, null, null);
                         authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
