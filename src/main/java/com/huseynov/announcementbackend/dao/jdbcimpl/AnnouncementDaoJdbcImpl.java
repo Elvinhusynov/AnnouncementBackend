@@ -78,6 +78,11 @@ public class AnnouncementDaoJdbcImpl implements AnnouncementDao {
     }
 
     @Override
+    public Page<Announcement> findAllByUsername(int page, int size, String username) {
+        return null;
+    }
+
+    @Override
     public Announcement create(Announcement announcement) {
         try (Connection connection = DatabaseConfig.getConnection()) {
 

@@ -6,7 +6,6 @@ import com.huseynov.announcementbackend.dto.AnnouncementResponse;
 import com.huseynov.announcementbackend.dto.UpdateAnnouncementRequest;
 import com.huseynov.announcementbackend.enums.SortDirection;
 import com.huseynov.announcementbackend.service.AnnouncementService;
-import com.huseynov.announcementbackend.service.JwtService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,10 +19,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AnnouncementController {
     private final AnnouncementService announcementService;
-    private final JwtService jwtService;
 
     @GetMapping
-    public BaseResponse<List<AnnouncementResponse>> getAnnouncements(
+    public BaseResponse<List<AnnouncementResponse>> getAnnouncements(//->methoda a sorgu atanda bütün elanlar gəlir.
             @RequestParam("page") int page,
             @RequestParam("size") int size,
             @RequestParam(value = "sortByCreatedDate", required = false) SortDirection sortCreatedDate,
@@ -32,6 +30,14 @@ public class AnnouncementController {
         log.info("Get announcements API is called");
 
         return announcementService.getAllAnnouncements(page, size, sortCreatedDate, name, description);
+    }
+    @GetMapping("/my-announcements")
+    public BaseResponse<List<AnnouncementResponse>> getMyAnnouncements(//->method - a sorğu atanda mənim elanım gəlir.
+            @RequestParam("page") int page,
+            @RequestParam("size") int size){
+        log.info("Get my announcements API is called");
+
+        return announcementService.getMyAllAnnouncements(page, size);
     }
 
     @PostMapping
