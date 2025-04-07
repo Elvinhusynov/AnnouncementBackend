@@ -9,5 +9,4 @@ public class UserUpdateRequest {
     private String surname;
     private LocalDate birthdate;
     private String phoneNumber;
-    private String password;
 }
