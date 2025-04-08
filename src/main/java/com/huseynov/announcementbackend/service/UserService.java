@@ -40,6 +40,15 @@ public class UserService {
         return userMapper.toResponse(user);
     }
 
+    public UserResponse updateUserStatus(Long userId,UserUpdateStatusRequest request) {
+        var user = userDao.findById(userId)
+                .orElseThrow(() -> new NotFoundException("User not found"));
+        user.setEnabled(request.status());
+        user = userDao.save(user);
+        return userMapper.toResponse(user);
+        //Bu method adminin useri və s. bloklaması üçündü
+    }
+
     private static String getUsername() {
         return SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();//login olmuş şəxs
     }

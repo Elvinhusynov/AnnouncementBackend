@@ -1,6 +1,7 @@
 package com.huseynov.announcementbackend.service;
 
 import com.huseynov.announcementbackend.entity.User;
+import com.huseynov.announcementbackend.enums.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -41,10 +42,13 @@ public class JwtService { //
         return extractClaim(token, Claims::getSubject);
     }
 
-    //helper functions
+    public Role extractRole(String token) {
+        Claims claims = extractAllClaims(token);
+        String role = claims.get("roles", String.class);
+        return Role.valueOf(role);
+    }
 
     private boolean isTokenExpired(String token) {
-
         return extractExpiration(token).before(new Date());
     }
 
