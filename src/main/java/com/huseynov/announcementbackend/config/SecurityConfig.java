@@ -41,7 +41,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers(
                                 "/api/v1/auth/login",
-                                "/api/v1/auth/sign-up").permitAll())//->login,sign-up olduğda token istəməsin.
+                                "/api/v1/auth/sign-up",//->login,sign-up olduğda token istəməsin.
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**").permitAll())
                 .authorizeHttpRequests(auth ->
                         auth.anyRequest().authenticated())//->hər sorğuda token istəsin.
                 .addFilterBefore(authorizationFilter, UsernamePasswordAuthenticationFilter.class)

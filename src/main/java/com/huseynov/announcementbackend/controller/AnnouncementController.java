@@ -9,7 +9,13 @@ import com.huseynov.announcementbackend.service.AnnouncementService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -21,29 +27,30 @@ public class AnnouncementController {
     private final AnnouncementService announcementService;
 
     @GetMapping
-    public BaseResponse<List<AnnouncementResponse>> getAnnouncements(//->methoda a sorgu atanda bütün elanlar gəlir.
+    public BaseResponse<List<AnnouncementResponse>> getAnnouncements(
             @RequestParam("page") int page,
             @RequestParam("size") int size,
             @RequestParam(value = "sortByCreatedDate", required = false) SortDirection sortCreatedDate,
             @RequestParam(value = "name", required = false, defaultValue = "") String name,
-            @RequestParam(value = "description", required = false, defaultValue = "") String description){
+            @RequestParam(value = "description", required = false, defaultValue = "") String description) {
         log.info("Get announcements API is called");
 
         return announcementService.getAllAnnouncements(page, size, sortCreatedDate, name, description);
     }
+
     @GetMapping("/my-announcements")
-    public BaseResponse<List<AnnouncementResponse>> getMyAnnouncements(//->method - a sorğu atanda mənim elanım gəlir.
+    public BaseResponse<List<AnnouncementResponse>> getMyAnnouncements(
             @RequestParam("page") int page,
-            @RequestParam("size") int size){
+            @RequestParam("size") int size) {
         log.info("Get my announcements API is called");
 
         return announcementService.getMyAllAnnouncements(page, size);
     }
 
     @PostMapping
-    public BaseResponse <AnnouncementResponse> create(@RequestBody @Valid CreateAnnouncementRequest request) {
-        log.info("Create announcement API is called , request: {}", request);
-        var response =  announcementService.createAnnouncement(request);
+    public BaseResponse<AnnouncementResponse> create(@RequestBody @Valid CreateAnnouncementRequest request) {
+        log.info("Create announcement API is called, request: {}", request);
+        var response = announcementService.createAnnouncement(request);
 
         BaseResponse<AnnouncementResponse> baseResponse = new BaseResponse<>();
         baseResponse.setData(response);
@@ -53,14 +60,14 @@ public class AnnouncementController {
     @PutMapping("/{announcementId}") //path variable
     public void update(@PathVariable("announcementId") Long announcementId,
                        @RequestBody UpdateAnnouncementRequest request) {
-        log.info("Update announcement API is called, announcementId:{} , request:{}", announcementId, request);
+        log.info("Update announcement API is called, announcementId: {}, request: {}",
+                announcementId, request);
         announcementService.updateAnnouncement(announcementId, request);
-
     }
 
     @DeleteMapping("/{announcementId}")
     public void delete(@PathVariable("announcementId") Long announcementId) {
-        log.info("Delete announcement API is called, announcementId:{}", announcementId);
+        log.info("Delete announcement API is called, announcementId: {}", announcementId);
         announcementService.deleteAnnouncement(announcementId);
     }
 
@@ -74,4 +81,30 @@ public class AnnouncementController {
         return baseResponse;
     }
 
+    @PostMapping("/{announcementId}/files")
+    public void uploadFile(
+            @PathVariable("announcementId") Long announcementId,
+            @RequestPart("file") MultipartFile multipartFile) {
+        log.info("File is uploading.");
+        announcementService.uploadFile(announcementId, multipartFile);
+    }
+
+    @GetMapping("/{announcementId}/files")
+    public ResponseEntity<Resource> downloadFile(
+            @PathVariable("announcementId") Long announcementId) {
+        log.info("File is downloading.");
+        var fileResponse = announcementService.downloadFile(announcementId);
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(fileResponse.getType()))
+                .header(HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=\"" + fileResponse.getName())
+                .body(new ByteArrayResource(fileResponse.getData()));
+    }
+
+    @DeleteMapping("/{announcementId}/files")
+    public void deleteFile(@PathVariable("announcementId") Long announcementId) {
+        log.info("File is deleting.");
+        announcementService.deleteFile(announcementId);
+    }
 }

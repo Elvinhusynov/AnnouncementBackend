@@ -18,7 +18,7 @@ import java.util.List;
 public interface AnnouncementMapper {
     @Mapping(source = "user.phoneNumber",target = "phoneNumber")
         //18 sətrdəki mapping ->user -ın içindəki phoneNumber set olunsun AnnouncementResponse-dakı phoneNumbera
-    @Mapping(target = "sellerFullName",expression = "java(mapName(announcement.getUser))")
+    @Mapping(target = "sellerFullName",expression = "java(mapName(announcement.getUser()))")
     AnnouncementResponse toResponse(Announcement announcement);
 
     List<AnnouncementResponse> toResponseList(List<Announcement> announcements);

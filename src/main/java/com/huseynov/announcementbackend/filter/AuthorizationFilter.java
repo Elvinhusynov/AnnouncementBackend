@@ -36,7 +36,9 @@ public class AuthorizationFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         if (request.getServletPath().equals("/api/v1/auth/login") //->bunu yazaraq deyirikki tokensiz login ol
-            || request.getServletPath().equals("/api/v1/auth/sign-up")) { //->bunu yazaraq deyirikki tokensiz sign-up ol
+            || request.getServletPath().equals("/api/v1/auth/sign-up")//->bunu yazaraq deyirikki tokensiz sign-up ol
+            || request.getServletPath().startsWith("/swagger-ui")
+            || request.getServletPath().startsWith("/v3/api-docs")) {
             filterChain.doFilter(request, response);
             return;
         }

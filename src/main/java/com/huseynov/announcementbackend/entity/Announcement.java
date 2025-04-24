@@ -32,4 +32,7 @@ public class Announcement {
     @ManyToOne
     private Category category;
 
+    @JoinColumn(name = "file_id" , referencedColumnName = "file_id")
+    @OneToOne(cascade = CascadeType.ALL)
+    private File file;
 }
